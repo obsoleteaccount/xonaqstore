@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import './App.css';
@@ -50,7 +50,16 @@ class App extends React.Component {
         <Switch> 
           <Route exact path='/' component={HomePage} />
           <Route path='/vshop' component={ShopPage} />
-          <Route path='/signin' component={SignInAndSignUpPage} />
+          <Route 
+            exact path='/signin' 
+            render={()=>
+              this.props.currentUser ? (
+                <Redirect to='/'/>
+              ) : (
+                <SignInAndSignUpPage />
+              )
+              } 
+            />
   
         </Switch>
       </div>  
@@ -59,8 +68,15 @@ class App extends React.Component {
  }
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+})
+
 const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))//dispatch is a way 4 redux to know that whatever object i am passing is going to be an action object that will be passed to every reducer
 })
 
-export default connect(null, mapDispatchToProps) (App);//connect our app to the outcome of the initial connect call using the 2nd arg of connect mapDispatchToProps
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+      ) (App);//connect our app to the outcome of the initial connect call using the 2nd arg of connect mapDispatchToProps
