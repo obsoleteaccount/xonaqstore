@@ -3,6 +3,7 @@ import {connect} from 'react-redux';//pull of data about cartItems from redux st
 
 import CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
+import {selectCartItems} from '../../redux/cart/cart.selectors'
 
 import './cart-dropdown.styles.scss';
 
